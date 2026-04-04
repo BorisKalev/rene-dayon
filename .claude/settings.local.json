@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n \"max-w\\\\|mx-auto\\\\|px-\\\\|py-\\\\|bg-zinc-9\" c:/Users/Krome/React/ReneDayon/rene-dayon/src/components/*.jsx)",
+      "Bash(grep -n \"^  <section\\\\|^    <section\\\\|^  <footer\\\\|py-20\\\\|py-24\\\\|py-28\\\\|py-32\\\\|bg-zinc-900/30\" c:/Users/Krome/React/ReneDayon/rene-dayon/src/components/*.jsx)"
+    ]
+  }
+}
