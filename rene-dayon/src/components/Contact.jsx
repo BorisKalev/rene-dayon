@@ -1,3 +1,4 @@
+import { useLang } from '../i18n'
 import SectionLabel from './ui/SectionLabel'
 import Section from './ui/Section'
 
@@ -43,64 +44,62 @@ const INPUT_BASE =
 const LABEL = 'block text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-2'
 
 export default function Contact() {
+  const { t } = useLang()
+  const c = t.contact
+
   return (
     <Section id="contact">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
 
         {/* Left — info */}
         <div>
-          <SectionLabel>Get In Touch</SectionLabel>
+          <SectionLabel>{c.label}</SectionLabel>
           <h2
             className="font-display font-bold text-white tracking-wide leading-tight mb-3"
             style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}
           >
-            COME SEE US
-            <br />
-            OR CALL AHEAD
+            {c.title.split('\n').map((line, i) => (
+              <span key={i}>{line}{i === 0 && <br />}</span>
+            ))}
           </h2>
           <p className="text-zinc-500 text-sm leading-relaxed mb-8 max-w-sm">
-            Fill the form and we&apos;ll confirm your appointment, or just call
-            us directly. Walk-ins are always welcome during business hours.
+            {c.sub}
           </p>
 
-          {/* Mobile — direct call CTA (most mobile visitors want to tap-to-call) */}
           <a
-            href="tel:+15140000000"
+            href="tel:+15147259336"
             className="lg:hidden flex items-center justify-center gap-3 w-full border border-zinc-700 hover:border-zinc-500 active:scale-[0.98] text-white py-3.5 text-sm font-semibold tracking-widest uppercase mb-8 transition-all duration-200"
           >
             <PhoneIcon size={16} />
-            Call: +1 (514) 000-0000
+            {c.callCta} +1 (514) 725-9336
           </a>
 
           <div className="space-y-6">
-            <InfoRow Icon={PhoneIcon} label="Phone">
-              <a
-                href="tel:+15140000000"
-                className="hover:text-white transition-colors"
-              >
-                +1 (514) 000-0000
+            <InfoRow Icon={PhoneIcon} label={c.infoPhone}>
+              <a href="tel:+15147259336" className="hover:text-white transition-colors">
+                +1 (514) 725-9336
               </a>
             </InfoRow>
 
-            <InfoRow Icon={MapPinIcon} label="Address">
+            <InfoRow Icon={MapPinIcon} label={c.infoAddress}>
               123 Rue Principale
               <br />
               Montréal, QC H0H 0H0
             </InfoRow>
 
-            <InfoRow Icon={ClockIcon} label="Hours">
+            <InfoRow Icon={ClockIcon} label={c.infoHours}>
               <div className="space-y-1">
                 <div className="flex gap-4">
-                  <span className="text-zinc-500 w-20 shrink-0">Mon – Fri</span>
+                  <span className="text-zinc-500 w-20 shrink-0">{c.monFri}</span>
                   <span>8:00 – 17:00</span>
                 </div>
                 <div className="flex gap-4">
-                  <span className="text-zinc-500 w-20 shrink-0">Saturday</span>
-                  <span className="text-zinc-600">Closed</span>
+                  <span className="text-zinc-500 w-20 shrink-0">{c.saturday}</span>
+                  <span className="text-zinc-600">{c.closed}</span>
                 </div>
                 <div className="flex gap-4">
-                  <span className="text-zinc-500 w-20 shrink-0">Sunday</span>
-                  <span className="text-zinc-600">Closed</span>
+                  <span className="text-zinc-500 w-20 shrink-0">{c.sunday}</span>
+                  <span className="text-zinc-600">{c.closed}</span>
                 </div>
               </div>
             </InfoRow>
@@ -112,7 +111,7 @@ export default function Contact() {
           <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className={LABEL}>Full Name</label>
+                <label className={LABEL}>{c.labelName}</label>
                 <input
                   type="text"
                   placeholder="Jean Dupont"
@@ -121,7 +120,7 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <label className={LABEL}>Phone Number</label>
+                <label className={LABEL}>{c.labelPhone}</label>
                 <input
                   type="tel"
                   placeholder="+1 (514) 000-0000"
@@ -132,29 +131,25 @@ export default function Contact() {
             </div>
 
             <div>
-              <label className={LABEL}>Service Needed</label>
+              <label className={LABEL}>{c.labelService}</label>
               <select className={`${INPUT_BASE} cursor-pointer`} defaultValue="">
-                <option value="" disabled>Select a service…</option>
-                <option>Oil &amp; Fluid Change</option>
-                <option>Brakes</option>
-                <option>Engine Diagnostics</option>
-                <option>Tires &amp; Alignment</option>
-                <option>Transmission</option>
-                <option>Electrical</option>
-                <option>Other / Not Sure</option>
+                <option value="" disabled>{c.selectDefault}</option>
+                {c.serviceOptions.map((opt) => (
+                  <option key={opt}>{opt}</option>
+                ))}
               </select>
             </div>
 
             <div>
               <label className={LABEL}>
-                Message{' '}
+                {c.labelMessage}{' '}
                 <span className="text-zinc-700 normal-case tracking-normal font-normal">
-                  (optional)
+                  {c.optional}
                 </span>
               </label>
               <textarea
                 rows={4}
-                placeholder="Describe the problem or anything else we should know…"
+                placeholder={c.placeholderMessage}
                 className={`${INPUT_BASE} resize-none`}
               />
             </div>
@@ -164,10 +159,10 @@ export default function Contact() {
                 type="submit"
                 className="w-full bg-brand-red hover:bg-brand-dark active:scale-[0.98] text-white font-semibold py-4 text-sm tracking-widest uppercase transition-all duration-200"
               >
-                Request Appointment
+                {c.submit}
               </button>
               <p className="text-zinc-600 text-xs text-center mt-3">
-                We confirm within a few hours during business days.
+                {c.confirm}
               </p>
             </div>
           </form>

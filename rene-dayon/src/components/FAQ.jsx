@@ -1,39 +1,7 @@
 import { useState } from 'react'
+import { useLang } from '../i18n'
 import SectionLabel from './ui/SectionLabel'
 import Section from './ui/Section'
-
-const FAQS = [
-  {
-    question: 'What are your opening hours?',
-    answer:
-      "We're open Monday to Friday, 8:00 to 17:00. We're closed on Saturdays and Sundays. If you need to leave a message outside of hours, we'll get back to you first thing the next morning.",
-  },
-  {
-    question: 'Do I need to book in advance?',
-    answer:
-      "Booking ahead is the best way to guarantee your time slot. Walk-ins are welcome too — we do our best to fit you in depending on the day's schedule.",
-  },
-  {
-    question: 'Do you give a quote before starting the work?',
-    answer:
-      'Always. We inspect the vehicle, write up exactly what needs to be done, and give you the full cost before anything is touched. Nothing starts without your approval.',
-  },
-  {
-    question: 'How long does a standard repair take?',
-    answer:
-      'Routine jobs like oil changes or brake pads are done within a few hours. Bigger repairs — diagnostics, transmission, electrical — may take a full day. We give you a realistic time estimate upfront and keep you posted.',
-  },
-  {
-    question: 'Do you guarantee your repairs?',
-    answer:
-      'Yes. All work performed at Rene-Dayon is covered by a warranty on both parts and labour. If something isn\'t right after we\'ve worked on it, bring it back and we\'ll sort it out at no extra charge.',
-  },
-  {
-    question: 'What payment methods do you accept?',
-    answer:
-      'We accept cash, debit, and all major credit cards. Payment is collected when you come to pick up the vehicle.',
-  },
-]
 
 function FAQItem({ question, answer, isOpen, onToggle }) {
   return (
@@ -92,6 +60,8 @@ function FAQItem({ question, answer, isOpen, onToggle }) {
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(0)
+  const { t } = useLang()
+  const f = t.faq
 
   const toggle = (index) =>
     setOpenIndex((prev) => (prev === index ? null : index))
@@ -100,32 +70,30 @@ export default function FAQ() {
     <Section id="faq" muted>
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
 
-        {/* Left — heading */}
         <div className="lg:col-span-2">
-          <SectionLabel>FAQ</SectionLabel>
+          <SectionLabel>{f.label}</SectionLabel>
           <h2
             className="font-display font-bold text-white tracking-wide leading-tight mb-5"
             style={{ fontSize: 'clamp(2rem, 5vw, 3rem)' }}
           >
-            COMMON
-            <br />
-            QUESTIONS
+            {f.title.split('\n').map((line, i) => (
+              <span key={i}>{line}{i === 0 && <br />}</span>
+            ))}
           </h2>
           <p className="text-zinc-500 text-sm leading-relaxed">
-            Don&apos;t see your question?{' '}
+            {f.sub}{' '}
             <a
               href="#contact"
               className="text-zinc-300 hover:text-white underline underline-offset-2 decoration-zinc-600 hover:decoration-zinc-400 transition-colors"
             >
-              Send us a message
+              {f.subLink}
             </a>{' '}
-            or give us a call.
+            {f.subEnd}
           </p>
         </div>
 
-        {/* Right — accordion */}
         <div className="lg:col-span-3 border-t border-zinc-800">
-          {FAQS.map((faq, index) => (
+          {f.items.map((faq, index) => (
             <FAQItem
               key={index}
               question={faq.question}

@@ -1,16 +1,10 @@
 import { useState, useEffect } from 'react'
-
-const NAV_LINKS = [
-  { label: 'Services', href: '#services' },
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Why Us', href: '#why-us' },
-  { label: 'FAQ', href: '#faq' },
-  { label: 'Contact', href: '#contact' },
-]
+import { useLang } from '../i18n'
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const { lang, toggle, t } = useLang()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
@@ -25,6 +19,14 @@ export default function Navbar() {
   }, [])
 
   const close = () => setOpen(false)
+
+  const NAV_LINKS = [
+    { label: t.nav.services, href: '#services' },
+    { label: t.nav.howItWorks, href: '#how-it-works' },
+    { label: t.nav.whyUs, href: '#why-us' },
+    { label: t.nav.faq, href: '#faq' },
+    { label: t.nav.contact, href: '#contact' },
+  ]
 
   return (
     <header
@@ -56,32 +58,62 @@ export default function Navbar() {
           ))}
         </nav>
 
-        {/* Desktop CTA */}
-        <a
-          href="#contact"
-          className="hidden md:inline-flex items-center bg-brand-red hover:bg-brand-dark active:scale-[0.97] text-white text-xs font-semibold px-5 py-2.5 tracking-widest uppercase transition-all duration-200 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-        >
-          Book Appointment
-        </a>
+        {/* Desktop right — lang toggle + CTA */}
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={toggle}
+            className="flex items-center gap-1 text-xs font-semibold tracking-widest border border-zinc-700 hover:border-zinc-500 transition-colors duration-200"
+            aria-label="Toggle language"
+          >
+            <span className={`px-2 py-1.5 transition-colors duration-200 ${lang === 'fr' ? 'bg-brand-red text-white' : 'text-zinc-500 hover:text-zinc-300'}`}>
+              FR
+            </span>
+            <span className={`px-2 py-1.5 transition-colors duration-200 ${lang === 'en' ? 'bg-brand-red text-white' : 'text-zinc-500 hover:text-zinc-300'}`}>
+              EN
+            </span>
+          </button>
 
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex items-center justify-center w-10 h-10 text-zinc-400 hover:text-white transition-colors"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-        >
-          {open ? (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M4 4l12 12M16 4L4 16" />
-            </svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M3 6h14M3 10h14M3 14h14" />
-            </svg>
-          )}
-        </button>
+          <a
+            href="#contact"
+            className="inline-flex items-center bg-brand-red hover:bg-brand-dark active:scale-[0.97] text-white text-xs font-semibold px-5 py-2.5 tracking-widest uppercase transition-all duration-200 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+          >
+            {t.nav.book}
+          </a>
+        </div>
+
+        {/* Mobile right — lang toggle + hamburger */}
+        <div className="md:hidden flex items-center gap-3">
+          <button
+            onClick={toggle}
+            className="flex items-center text-xs font-semibold tracking-widest border border-zinc-700"
+            aria-label="Toggle language"
+          >
+            <span className={`px-2 py-1 transition-colors duration-200 ${lang === 'fr' ? 'bg-brand-red text-white' : 'text-zinc-500'}`}>
+              FR
+            </span>
+            <span className={`px-2 py-1 transition-colors duration-200 ${lang === 'en' ? 'bg-brand-red text-white' : 'text-zinc-500'}`}>
+              EN
+            </span>
+          </button>
+
+          <button
+            className="flex items-center justify-center w-10 h-10 text-zinc-400 hover:text-white transition-colors"
+            onClick={() => setOpen(!open)}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+          >
+            {open ? (
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                <path d="M4 4l12 12M16 4L4 16" />
+              </svg>
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                <path d="M3 6h14M3 10h14M3 14h14" />
+              </svg>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
@@ -105,7 +137,7 @@ export default function Navbar() {
             onClick={close}
             className="bg-brand-red hover:bg-brand-dark text-white text-xs font-semibold px-5 py-3.5 tracking-widest uppercase text-center mt-3 transition-colors"
           >
-            Book Appointment
+            {t.nav.book}
           </a>
         </div>
       )}

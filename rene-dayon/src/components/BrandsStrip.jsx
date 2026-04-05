@@ -1,33 +1,25 @@
+import { useLang } from '../i18n'
+
 const BRANDS = [
-  'Toyota',
-  'Honda',
-  'Ford',
-  'Chevrolet',
-  'Nissan',
-  'BMW',
-  'Mercedes-Benz',
-  'Hyundai',
-  'Kia',
-  'Volkswagen',
-  'Subaru',
-  'Jeep',
+  'Toyota', 'Honda', 'Ford', 'Chevrolet', 'Nissan',
+  'BMW', 'Mercedes-Benz', 'Hyundai', 'Kia', 'Volkswagen', 'Subaru', 'Jeep',
 ]
 
 export default function BrandsStrip() {
+  const { t } = useLang()
+
   return (
     <div className="border-b border-zinc-800 bg-zinc-950 py-4 overflow-hidden">
       <div className="w-full max-w-6xl mx-auto px-6">
         <div className="flex items-center gap-6 overflow-x-auto scrollbar-none">
 
-          {/* Label */}
           <div className="flex items-center gap-4 shrink-0">
             <span className="text-zinc-600 text-xs font-semibold uppercase tracking-[0.2em] whitespace-nowrap">
-              All Makes
+              {t.brands.label}
             </span>
             <span className="w-px h-3.5 bg-zinc-700 block" />
           </div>
 
-          {/* Brand names */}
           <div className="flex items-center gap-7 shrink-0">
             {BRANDS.map((brand) => (
               <span
